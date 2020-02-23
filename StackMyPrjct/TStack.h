@@ -22,8 +22,8 @@ public:
 template <class T>
 TStack<T>::TStack(int max)
 {
-	if (MaxSize < 0)
-		throw MaxSize;
+	//if (MaxSize < 0)
+		//throw MaxSize;
 	MaxSize = max;
 	Size = 0;
 	mas = new T[MaxSize];

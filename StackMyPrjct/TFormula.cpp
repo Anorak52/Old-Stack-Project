@@ -24,22 +24,22 @@ void TCalc::ToPostFix() {
 	for (int i = 0; i < tmp.size(); i++)
 	{
 		if (tmp[i] == '(') stop.Push(tmp[i]);
-		if (tmp[i] >= '0'&&tmp[i] <= '9') postfix += tmp[i];
-		if (tmp[i] == ')') {
+		else if (tmp[i] == ')') {
 			while (stop.Top() != '(')postfix += stop.Pop();
 			stop.Pop();
 		}
-		if (tmp[i] == '+' || tmp[i] == '-' || tmp[i] == '*' || tmp[i] == '/' || tmp[i] == '^')
+		else if (tmp[i] == '+' || tmp[i] == '-' || tmp[i] == '*' || tmp[i] == '/' || tmp[i] == '^')
 		{
 			postfix += ' ';
 			while (GetPriority(tmp[i]) <= GetPriority(stop.Top()))postfix += stop.Pop();
 			stop.Push(tmp[i]);
 		}
-		if (tmp[i] == 's' || tmp[i] == 'c')
+		else if (tmp[i] >= '0'&&tmp[i] <= '9') postfix += tmp[i];
+		else
 		{
 			postfix += ' ';
 			postfix += tmp[i];
-			i += 2;
+
 		}
 	}
 }
@@ -58,8 +58,21 @@ double TCalc::Calc() {
 	stnum.clear();
 	for (int i = 0; i < postfix.size(); i++) {
 		if (postfix[i] == '+' || postfix[i] == '-' || postfix[i] == '*' || postfix[i] == '/' || postfix[i] == '^' || postfix[i] == 's' || postfix[i] == 'c') {
-			num2 = stnum.Pop();
-			num1 = stnum.Pop();
+
+			if (!stnum.IsEmpty())
+				num2 = stnum.Pop();
+			else
+			{
+				cout << "Error";
+				return 0;
+			}
+			if (!stnum.IsEmpty())
+				num1 = stnum.Pop();
+			else
+			{
+				cout << "Error";
+				return 0;
+			}
 			switch (postfix[i])
 			{
 			case '+':res = num1 + num2;
